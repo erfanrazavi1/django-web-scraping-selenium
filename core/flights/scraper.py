@@ -9,13 +9,6 @@ import time
 
 def setup_driver():
     """Initialize and configure the Chrome WebDriver."""
-    # options = webdriver.ChromeOptions()
-    # options.add_argument("--disable-gpu")
-    # options.add_argument()  # اجرای کروم در حالت هدلس
-    # options.add_argument("--no-sandbox")  # برای جلوگیری از مشکلات اجرا در سرور
-    # options.add_argument("--disable-dev-shm-usage")  # مدیریت بهتر حافظه در حالت هدلس
-    # return webdriver.Chrome(options=options)
-    
     options = webdriver.ChromeOptions()
     options.add_argument("--headless")  # اجرای در پس‌زمینه
     options.add_argument("--disable-gpu")
@@ -24,6 +17,8 @@ def setup_driver():
     options.add_argument("--window-size=1920,1080")  # تنظیم رزولوشن
     options.add_argument("--disable-blink-features=AutomationControlled")  # جلوگیری از شناسایی هدلس
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")  # User-Agent واقعی
+    
+    
     
     return webdriver.Chrome(options=options)
 
