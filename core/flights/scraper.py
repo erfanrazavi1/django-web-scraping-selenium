@@ -25,7 +25,7 @@ def setup_driver():
 
 def select_location(driver, label_text, city_name):
     """انتخاب شهر در کادر جستجو بر اساس متن label."""
-    label = WebDriverWait(driver, 10).until(
+    label =WebDriverWait(driver, 2).until(
         EC.presence_of_element_located((By.XPATH, f"//label[contains(text(), '{label_text}')]"))
     )
     input_id = label.get_attribute("for")  # گرفتن id فیلد ورودی
@@ -35,7 +35,7 @@ def select_location(driver, label_text, city_name):
     search_box.send_keys(city_name)
     time.sleep(1)
 
-    first_option = WebDriverWait(driver, 10).until(
+    first_option =WebDriverWait(driver, 2).until(
         EC.presence_of_all_elements_located((By.XPATH, "//span[contains(@class, 'font-medium')]"))
     )
     first_option[0].click()
@@ -57,10 +57,11 @@ def select_date(driver,day,month):
         
         if target_calendar is None:
             print("❌ ماه موردنظر پیدا نشد!")
+            
             return 
 
         day_xpath = f".//span[@class='calendar-cell']/span[contains(text(), '{int(day)}')]"
-        date_element = WebDriverWait(target_calendar, 10).until(
+        date_element = WebDriverWait(target_calendar, 5).until(
             EC.element_to_be_clickable((By.XPATH, day_xpath))
         )
 
@@ -75,7 +76,7 @@ def select_date(driver,day,month):
 
 def click_button(driver, by, value):
     """Clicks a button identified by the given locator."""
-    button = WebDriverWait(driver, 10).until(
+    button =WebDriverWait(driver, 2).until(
         EC.element_to_be_clickable((by, value))
     )
     button.click()
@@ -83,7 +84,7 @@ def click_button(driver, by, value):
 def get_flight_results(driver):
     """Retrieves flight search results."""
     try:
-        results = WebDriverWait(driver, 15).until(
+        results =WebDriverWait(driver, 2).until(
             EC.presence_of_all_elements_located((By.CLASS_NAME, "available-card__content"))
         )
     except TimeoutException:

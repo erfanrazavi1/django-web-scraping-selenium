@@ -182,7 +182,7 @@
         <input type="text" id="end" name="end" required placeholder="مثلاً: مشهد">
         
         <label for="end">روز رفت:</label>
-        <input type="text" id="end" name="day" required placeholder="مثلاً: 30">
+        <input type="text" id="end" name="day" required placeholder="مثلاً: 01">
         
         <label for="end"> ماه رفت:</label>
         <input type="text" id="end" name="month" required placeholder="مثلاً: اسفند">
@@ -195,7 +195,15 @@
         alert("{{ error_message }}");
     </script>
     {% endif %}
-
+    {% comment %} <script>
+        function formatDay(input) {
+            let value = input.value;
+            // اگر مقدار یک عدد یک رقمی باشد و عدد باشد
+            if (value.length === 1 && value >= '0' && value <= '9') {
+                input.value = '0' + value;
+            }
+        }
+        </script> {% endcomment %}
 
 </body>
 </html>
