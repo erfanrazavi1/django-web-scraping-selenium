@@ -1,0 +1,125 @@
+
+    <!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Results</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700&display=swap');
+
+        body {
+            font-family: 'Vazirmatn', Arial, sans-serif;
+            direction: rtl;
+            text-align: right;
+            background: linear-gradient(to right, #2c3e50, #4ca1af);
+            padding: 20px;
+            color: black;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        h2 {
+            color: #2c3e50;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .flight {
+            background: rgba(0, 123, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border-right: 6px solid #007bff;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .flight:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .flight strong {
+            color: #007bff;
+        }
+
+        .flight::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: skewX(-20deg);
+            transition: left 0.5s ease-in-out;
+        }
+
+        .flight:hover::before {
+            left: 100%;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* استایل دکمه بروزرسانی */
+        .refresh-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            display: none; /* مخفی کردن دکمه */
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .refresh-btn:hover {
+            background: #0056b3;
+            transform: scale(1.1);
+        }
+
+    </style>
+    </head>
+    <body>
+        <div class="container">
+            <h2>نتایج پرواز</h2>
+            <div class="flight">پروازی در این تاریخ وجود ندارد.</div>
+        </div>
+
+        <!-- دکمه بروزرسانی -->
+        <a href="{% url 'flight:index' %}" class="refresh-btn" id="refreshButton">بروزرسانی</a>
+
+        <script>
+            // نمایش دکمه بعد از 3 ثانیه
+            setTimeout(function() {
+                document.getElementById("refreshButton").style.display = "block";
+            }, 3000);
+        </script>
+    </body>
+    </html>
+
+
+    

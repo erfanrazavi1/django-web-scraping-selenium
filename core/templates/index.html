@@ -1,0 +1,195 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جستجوی پرواز</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        /* استایل کلی صفحه */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #2c3e50, #4ca1af);
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        /* استایل فرم */
+        #flight-form {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-in-out;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        #flight-form label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #555;
+        }
+
+        #flight-form input[type="text"] {
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        #flight-form input[type="text"]:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        #flight-form button {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #flight-form button:hover {
+            background-color: #0056b3;
+        }
+
+        /* استایل نتایج */
+        #results {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            animation: slideIn 0.5s ease-in-out;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* انیمیشن‌ها */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .fetch-data {
+            background: #ffffff; /* پس‌زمینه سفید برای کارت */
+            border-radius: 10px; /* گوشه‌های گرد */
+            padding: 12px 20px;
+            margin: 10px 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* سایه نرم */
+            font-size: 1rem;
+            font-weight: 500;
+            color: #333;
+            text-align: center;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        
+        /* افکت هاور */
+        .fetch-data:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* تغییر رنگ متن‌های داخل کارت */
+        .fetch-data:nth-child(odd) {
+            background: #f8f9fa; /* پس‌زمینه خاکستری ملایم برای موارد فرد */
+        }
+        
+        .fetch-data:nth-child(even) {
+            background: #e3f2fd; /* پس‌زمینه آبی کم‌رنگ برای موارد زوج */
+        }
+        
+        /* انیمیشن زیبای ورود */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fetch-data {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .refresh-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: background 0.3s, transform 0.2s;
+        }
+        
+        .refresh-button:hover {
+            background: #0056b3;
+            transform: scale(1.1);
+        }
+        
+    </style>
+</head>
+<body>
+    <h2 style="color:rgb(0, 0, 0); margin-bottom: 1.5rem;">جستجوی پرواز</h2>
+    <form id="flight-form" method='post' action="{% url "flight:search_flights" %}">
+        {% csrf_token %}
+        <label for="start">مبدا:</label>
+        <input type="text" id="start" name="start" required placeholder="مثلاً: تهران">
+        
+        <label for="end">مقصد:</label>
+        <input type="text" id="end" name="end" required placeholder="مثلاً: مشهد">
+        
+        <label for="end">روز رفت:</label>
+        <input type="text" id="end" name="day" required placeholder="مثلاً: 30">
+        
+        <label for="end"> ماه رفت:</label>
+        <input type="text" id="end" name="month" required placeholder="مثلاً: اسفند">
+        
+        <button type="submit">جستجو</button>
+    </form>
+    
+   
+</body>
+</html>
