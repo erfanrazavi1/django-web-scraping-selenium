@@ -43,28 +43,32 @@ def select_location(driver, label_text, city_name):
 def select_date(driver,day,month):
     """تابع کمکی برای انتخاب تاریخ در مرورگر با استفاده از Selenium."""
     try:
-        
-        datepickers = driver.find_elements(By.XPATH, "//div[@class='datepicker-arrows']")
-        first_month_div = driver.find_element(By.XPATH, "//div[@class='calendar is-jalali']")
-        # inp_month = input("Enter month: ")
-        for datepicker in datepickers:
-            month_text = first_month_div.find_element(By.TAG_NAME, "h5").text
-            if month == month_text:
-                
-                xpath = f"//span[@class='calendar-cell']/span[contains(text(), '{int(day)}')]"
-                
-                date_element = WebDriverWait(driver, 10).until(
-                    EC.element_to_be_clickable((By.XPATH, xpath))
-                )
-                driver.execute_script("arguments[0].classList.add('is-selected');", date_element)
-                date_element.click()
+       
+        calendar_divs = driver.find_elements(By.XPATH, "//div[@class='calendar is-jalali']")
 
-                print("✅ تاریخ با موفقیت انتخاب شد!")
-            else:
-                print('تاریخ اشتیاه است متاسفم برنامه قط میشه')
+        target_calendar = None
 
         
+        for calendar in calendar_divs:
+            month_text = calendar.find_element(By.TAG_NAME, "h5").text.strip()
+            if month_text == month:
+                target_calendar = calendar
+                break
+        
+        if target_calendar is None:
+            print("❌ ماه موردنظر پیدا نشد!")
+            return 
 
+        day_xpath = f".//span[@class='calendar-cell']/span[contains(text(), '{int(day)}')]"
+        date_element = WebDriverWait(target_calendar, 10).until(
+            EC.element_to_be_clickable((By.XPATH, day_xpath))
+        )
+
+        # اضافه کردن کلاس `is-selected` برای مشخص کردن انتخاب
+        driver.execute_script("arguments[0].classList.add('is-selected');", date_element)
+        date_element.click()
+
+        print("✅ تاریخ با موفقیت انتخاب شد!")
         
     except Exception as e:
         print(f"Error selecting date: {e}")
