@@ -14,7 +14,7 @@ def setup_driver():
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--window-size=1920,1080")  # تنظیم رزولوشن
+    # options.add_argument("--window-size=1920,1080")  # تنظیم رزولوشن
     options.add_argument("--disable-blink-features=AutomationControlled")  # جلوگیری از شناسایی هدلس
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")  # User-Agent واقعی
     
@@ -43,20 +43,7 @@ def select_location(driver, label_text, city_name):
 def select_date(driver,day,month):
     """تابع کمکی برای انتخاب تاریخ در مرورگر با استفاده از Selenium."""
     try:
-        # دریافت تاریخ از کاربر
-        # day = input("روز را وارد کنید (مثلاً 15): ").zfill(2)  # اگر تک رقمی بود، صفر اضافه کن
-        # month = input("ماه را وارد کنید (مثلاً 07): ").zfill(2)
-        # year = input("سال را وارد کنید (مثلاً 1402): ")
-        # final_date = f"{year}/{month}/{day}"
-
-        # انتخاب تاریخ در مرورگر
-        # date_input = driver.find_element(By.ID, "al36393")
-        # driver.execute_script("arguments[0].removeAttribute('readonly');", date_input)
-        # date_input.click()
-        # time.sleep(1)
-        # date_input.clear()
-        # date_input.send_keys(final_date)
-        # date_input.send_keys(Keys.ENTER)
+        
         datepickers = driver.find_elements(By.XPATH, "//div[@class='datepicker-arrows']")
         first_month_div = driver.find_element(By.XPATH, "//div[@class='calendar is-jalali']")
         # inp_month = input("Enter month: ")
@@ -232,7 +219,7 @@ def save_to_html(data):
     flights_html = "".join(f'<div class="flight">{flight}</div>' for flight in data)
     final_html = html_template.replace("{flights}", flights_html)
 
-    with open("./templates/flights.html", "w", encoding="utf-8") as f:
+    with open("./core/templates/flights.html", "w", encoding="utf-8") as f:
         f.write(final_html)
 
 

@@ -6,7 +6,8 @@ import time
 
 
 def index(request):
-    return render(request, 'index.html')
+    error_message = request.session.pop("error_message", None)
+    return render(request, "index.html", {"error_message": error_message})
 
 def search_flights(request):
     if request.method == "POST":
