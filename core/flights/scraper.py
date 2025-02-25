@@ -109,29 +109,37 @@ def save_to_html(data):
             font-family: 'Vazirmatn', Arial, sans-serif;
             direction: rtl;
             text-align: right;
-            background: linear-gradient(to right, #2c3e50, #4ca1af);
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
             padding: 20px;
-            color: black;
+            color: #fff;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
 
         .container {
             max-width: 800px;
             margin: auto;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.1);
             padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             animation: fadeIn 1s ease-in-out;
         }
 
         h2 {
-            color: #2c3e50;
+            color: #fff;
             text-align: center;
             font-weight: 700;
+            margin-bottom: 20px;
         }
 
         .flight {
-            background: rgba(0, 123, 255, 0.1);
+            background: rgba(255, 255, 255, 0.1);
             padding: 15px;
             border-radius: 8px;
             margin-bottom: 12px;
@@ -143,7 +151,7 @@ def save_to_html(data):
 
         .flight:hover {
             transform: scale(1.05);
-            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
         }
 
         .flight strong {
@@ -189,7 +197,7 @@ def save_to_html(data):
             text-decoration: none;
             font-weight: bold;
             display: none; /* مخفی کردن دکمه */
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease-in-out;
         }
 
@@ -197,26 +205,25 @@ def save_to_html(data):
             background: #0056b3;
             transform: scale(1.1);
         }
-
     </style>
-    </head>
-    <body>
-        <div class="container">
-            <h2>نتایج پرواز</h2>
-            {flights}
-        </div>
+</head>
+<body>
+    <div class="container">
+        <h2>نتایج پرواز</h2>
+        {flights}
+    </div>
 
-        <!-- دکمه بروزرسانی -->
-        <a href="{% url 'flight:index' %}" class="refresh-btn" id="refreshButton">بروزرسانی</a>
+    <!-- دکمه بروزرسانی -->
+    <a href="{% url 'flight:base' %}" class="refresh-btn" id="refreshButton">برو به صفحه اصلی</a>
 
-        <script>
-            // نمایش دکمه بعد از 3 ثانیه
-            setTimeout(function() {
-                document.getElementById("refreshButton").style.display = "block";
-            }, 3000);
-        </script>
-    </body>
-    </html>
+    <script>
+        // نمایش دکمه بعد از 3 ثانیه
+        setTimeout(function() {
+            document.getElementById("refreshButton").style.display = "block";
+        }, 3000);
+    </script>
+</body>
+</html>
 
 
     """

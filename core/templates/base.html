@@ -1,0 +1,141 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الی گشت</title>
+    <style>
+        /* استایل کلی صفحه */
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            direction: rtl;
+        }
+
+        /* استایل عنوان */
+        .title {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            color: #fff;
+        }
+
+        /* استایل پنل */
+        .panel {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            max-width: 800px;
+            width: 100%;
+            padding: 20px;
+        }
+
+        /* استایل کارت‌ها */
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            z-index: -1;
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #fff;
+        }
+
+        .card p {
+            margin: 10px 0 0;
+            font-size: 1rem;
+            color: #ddd;
+        }
+
+        /* انیمیشن‌ها */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        /* استایل برای موبایل */
+        @media (max-width: 768px) {
+            .panel {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- عنوان صفحه -->
+    <h1 class="title">Eligasht</h1>
+
+    <!-- پنل دکمه‌ها -->
+    <div class="panel">
+        <a href="{% url 'flight:index' %}" class="card">
+            <h2>پرواز داخلی</h2>
+            <p>برای دیدن نتایج کلیک کنید</p>
+        </a>
+        <a href="page2.html" class="card">
+            <h2>پرواز خارجی</h2>
+            <p>برای دیدن نتایج کلیک کنید</p>
+        </a>
+        <a href="page3.html" class="card">
+            <h2>هتل</h2>
+            <p>برای دیدن نتایج کلیک کنید</p>
+        </a>
+        <a href="page4.html" class="card">
+            <h2>تور</h2>
+            <p>برای دیدن نتایج کلیک کنید</p>
+        </a>
+    </div>
+</body>
+</html>

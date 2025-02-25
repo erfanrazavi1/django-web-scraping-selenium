@@ -4,7 +4,8 @@ from flights.scraper import *
 
 app_name = "flight"
 urlpatterns = [
-    path('', index, name='index'),
+    path('', base, name='base'),
+    path('fly/', index, name='index'),
     path("search/", search_flights, name="search_flights"),
     
 

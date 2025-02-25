@@ -12,29 +12,37 @@
             font-family: 'Vazirmatn', Arial, sans-serif;
             direction: rtl;
             text-align: right;
-            background: linear-gradient(to right, #2c3e50, #4ca1af);
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
             padding: 20px;
-            color: black;
+            color: #fff;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
 
         .container {
             max-width: 800px;
             margin: auto;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.1);
             padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             animation: fadeIn 1s ease-in-out;
         }
 
         h2 {
-            color: #2c3e50;
+            color: #fff;
             text-align: center;
             font-weight: 700;
+            margin-bottom: 20px;
         }
 
         .flight {
-            background: rgba(0, 123, 255, 0.1);
+            background: rgba(255, 255, 255, 0.1);
             padding: 15px;
             border-radius: 8px;
             margin-bottom: 12px;
@@ -46,7 +54,7 @@
 
         .flight:hover {
             transform: scale(1.05);
-            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
         }
 
         .flight strong {
@@ -92,7 +100,7 @@
             text-decoration: none;
             font-weight: bold;
             display: none; /* مخفی کردن دکمه */
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease-in-out;
         }
 
@@ -100,83 +108,86 @@
             background: #0056b3;
             transform: scale(1.1);
         }
-
     </style>
-    </head>
-    <body>
-        <div class="container">
-            <h2>نتایج پرواز</h2>
-            <div class="flight">کیش ایر
+</head>
+<body>
+    <div class="container">
+        <h2>نتایج پرواز</h2>
+        <div class="flight">چابهار
 سیستمی
-بیزینس
+اکونومی
 Boeing MD
 تهران
-20:35
+21:15
 شیراز
-21:50
+23:15
 اطلاعات پرواز
 قوانین استرداد
-4,559,000تومان
-نرخ رسمی ایرلاین
-انتخاب پرواز</div><div class="flight">چابهار
+3,255,000تومان
+انتخاب پرواز
+6صندلی باقی مانده</div><div class="flight">آوا ایر
 سیستمی
 اکونومی
-MD8
+Boeing MD
 تهران
-21:35
+18:50
 شیراز
-22:50
-تکمیل ظرفیت
-انتخاب پرواز</div><div class="flight">زاگرس
-سیستمی
-اکونومی
-MD8
-تهران
 20:10
-شیراز
-21:40
-کنسل شده
-انتخاب پرواز</div><div class="flight">آسمان
+اطلاعات پرواز
+قوانین استرداد
+3,402,500تومان
+انتخاب پرواز
+6صندلی باقی مانده</div><div class="flight">ساها
 سیستمی
 اکونومی
-100
+Boeing 737
 تهران
-08:30
+06:35
 شیراز
-09:55
-تکمیل ظرفیت
+07:50
+اطلاعات پرواز
+قوانین استرداد
+3,399,800تومان
+نرخ رسمی ایرلاین
 انتخاب پرواز</div><div class="flight">ساها
 سیستمی
 اکونومی
-737
+Boeing 737
 تهران
-19:40
+19:55
 شیراز
-20:55
-تکمیل ظرفیت
-انتخاب پرواز</div><div class="flight">ایران ایر
+21:10
+اطلاعات پرواز
+قوانین استرداد
+3,399,800تومان
+نرخ رسمی ایرلاین
+انتخاب پرواز</div><div class="flight">ایران ایرتور
 سیستمی
-اکونومی
-F100
+بیزینس
+Boeing MD-82
 تهران
-20:05
+07:00
 شیراز
-21:40
-تکمیل ظرفیت
-انتخاب پرواز</div>
-        </div>
+08:20
+اطلاعات پرواز
+قوانین استرداد
+5,954,375تومان
+نرخ رسمی ایرلاین
+انتخاب پرواز
+5صندلی باقی مانده</div>
+    </div>
 
-        <!-- دکمه بروزرسانی -->
-        <a href="{% url 'flight:index' %}" class="refresh-btn" id="refreshButton">بروزرسانی</a>
+    <!-- دکمه بروزرسانی -->
+    <a href="{% url 'flight:base' %}" class="refresh-btn" id="refreshButton">برو به صفحه اصلی</a>
 
-        <script>
-            // نمایش دکمه بعد از 3 ثانیه
-            setTimeout(function() {
-                document.getElementById("refreshButton").style.display = "block";
-            }, 3000);
-        </script>
-    </body>
-    </html>
+    <script>
+        // نمایش دکمه بعد از 3 ثانیه
+        setTimeout(function() {
+            document.getElementById("refreshButton").style.display = "block";
+        }, 3000);
+    </script>
+</body>
+</html>
 
 
     
