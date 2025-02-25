@@ -10,7 +10,7 @@ import time
 def setup_driver():
     """Initialize and configure the Chrome WebDriver."""
     options = webdriver.ChromeOptions()
-    options.add_argument("--headless")  # اجرای در پس‌زمینه
+    # options.add_argument("--headless")  # اجرای در پس‌زمینه
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
@@ -65,11 +65,20 @@ def select_date(driver,day,month):
             EC.element_to_be_clickable((By.XPATH, day_xpath))
         )
 
-        # اضافه کردن کلاس `is-selected` برای مشخص کردن انتخاب
         driver.execute_script("arguments[0].classList.add('is-selected');", date_element)
         date_element.click()
 
         print("✅ تاریخ با موفقیت انتخاب شد!")
+        if month == "فروردین":
+            try:
+                is_pass_element = date_element.find_element(By.XPATH, "./span[@class='is-pass']")
+                driver.execute_script("arguments[0].remove();", is_pass_element)
+            except:
+                print("✅ هیچ تگ is-pass برای حذف وجود نداشت.")
+
+        # کلیک روی تاریخ موردنظر
+        date_element.click()
+        
         
     except Exception as e:
         print(f"Error selecting date: {e}")
