@@ -36,15 +36,12 @@ Now, you can start the Django server:
 python manage.py runserver
 After running the server, you can visit the following URL in your browser to see the project:
 
-
 http://127.0.0.1:8000/
+
 Running the Project with a Script
-If you want to run the project using a simple script, you can use the run_app.py script located in the dist folder. Just run the script:
-
-
+If you want to run with exe file. got to following dir:
 python dist/run_app.py
-Building the Executable Script
-If you want to build the executable script yourself, follow these steps:
+
 
 License
 This project is licensed under the MIT License.
