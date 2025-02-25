@@ -5,53 +5,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>جستجوی پرواز</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <style>
         /* استایل کلی صفحه */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(to right, #2c3e50, #4ca1af);
-            color: #333;
+            font-family: 'Vazirmatn', sans-serif;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: #fff;
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             flex-direction: column;
+            direction: rtl;
+        }
+
+        /* استایل عنوان */
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         /* استایل فرم */
         #flight-form {
-            background: #fff;
+            background: rgba(255, 255, 255, 0.1);
             padding: 2rem;
-            border-radius: 10px;
+            border-radius: 15px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            animation: fadeIn 1s ease-in-out;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             max-width: 400px;
             width: 100%;
+            animation: fadeIn 1s ease-in-out;
         }
 
         #flight-form label {
             display: block;
             margin-bottom: 0.5rem;
             font-weight: bold;
-            color: #555;
+            color: #fff;
         }
 
         #flight-form input[type="text"] {
             width: 100%;
             padding: 0.75rem;
             margin-bottom: 1rem;
-            border: 1px solid #ddd;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 5px;
             font-size: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
             transition: border-color 0.3s ease;
         }
 
         #flight-form input[type="text"]:focus {
             border-color: #007bff;
             outline: none;
+        }
+
+        #flight-form input[type="text"]::placeholder {
+            color: #ccc;
         }
 
         #flight-form button {
@@ -74,13 +89,42 @@
         #results {
             margin-top: 2rem;
             padding: 1rem;
-            background: #fff;
-            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            animation: slideIn 0.5s ease-in-out;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             max-width: 400px;
             width: 100%;
             text-align: center;
+            animation: slideIn 0.5s ease-in-out;
+        }
+
+        /* استایل کارت‌های نتایج */
+        .fetch-data {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 12px 20px;
+            margin: 10px 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            font-size: 1rem;
+            font-weight: 500;
+            color: #fff;
+            text-align: center;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .fetch-data:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .fetch-data:nth-child(odd) {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .fetch-data:nth-child(even) {
+            background: rgba(255, 255, 255, 0.2);
         }
 
         /* انیمیشن‌ها */
@@ -105,49 +149,12 @@
                 transform: translateY(0);
             }
         }
-        .fetch-data {
-            background: #ffffff; /* پس‌زمینه سفید برای کارت */
-            border-radius: 10px; /* گوشه‌های گرد */
-            padding: 12px 20px;
-            margin: 10px 0;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* سایه نرم */
-            font-size: 1rem;
-            font-weight: 500;
-            color: #333;
-            text-align: center;
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        }
-        
-        /* افکت هاور */
-        .fetch-data:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-        }
-        
-        /* تغییر رنگ متن‌های داخل کارت */
-        .fetch-data:nth-child(odd) {
-            background: #f8f9fa; /* پس‌زمینه خاکستری ملایم برای موارد فرد */
-        }
-        
-        .fetch-data:nth-child(even) {
-            background: #e3f2fd; /* پس‌زمینه آبی کم‌رنگ برای موارد زوج */
-        }
-        
-        /* انیمیشن زیبای ورود */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
+
         .fetch-data {
             animation: fadeIn 0.5s ease-in-out;
         }
+
+        /* استایل دکمه بروزرسانی */
         .refresh-button {
             position: fixed;
             bottom: 20px;
@@ -163,17 +170,16 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             transition: background 0.3s, transform 0.2s;
         }
-        
+
         .refresh-button:hover {
             background: #0056b3;
             transform: scale(1.1);
         }
-        
     </style>
 </head>
 <body>
-    <h2 style="color:rgb(0, 0, 0); margin-bottom: 1.5rem;">جستجوی پرواز</h2>
-    <form id="flight-form" method='post' action="{% url "flight:search_flights" %}">
+    <h2 style="color: #fff; margin-bottom: 1.5rem;">جستجوی پرواز</h2>
+    <form id="flight-form" method='post' action="{% url 'flight:search_flights' %}">
         {% csrf_token %}
         <label for="start">مبدا:</label>
         <input type="text" id="start" name="start" required placeholder="مثلاً: تهران">
@@ -181,11 +187,11 @@
         <label for="end">مقصد:</label>
         <input type="text" id="end" name="end" required placeholder="مثلاً: مشهد">
         
-        <label for="end">روز رفت:</label>
-        <input type="text" id="end" name="day" required placeholder="مثلاً: 01">
+        <label for="day">روز رفت:</label>
+        <input type="text" id="day" name="day" required placeholder="مثلاً: 01">
         
-        <label for="end"> ماه رفت:</label>
-        <input type="text" id="end" name="month" required placeholder="مثلاً: اسفند">
+        <label for="month">ماه رفت:</label>
+        <input type="text" id="month" name="month" required placeholder="مثلاً: اسفند">
         
         <button type="submit">جستجو</button>
     </form>
@@ -195,15 +201,5 @@
         alert("{{ error_message }}");
     </script>
     {% endif %}
-    {% comment %} <script>
-        function formatDay(input) {
-            let value = input.value;
-            // اگر مقدار یک عدد یک رقمی باشد و عدد باشد
-            if (value.length === 1 && value >= '0' && value <= '9') {
-                input.value = '0' + value;
-            }
-        }
-        </script> {% endcomment %}
-
 </body>
 </html>

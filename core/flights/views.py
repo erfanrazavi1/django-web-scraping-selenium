@@ -4,7 +4,8 @@ from flights.scraper import *
 from selenium.webdriver.common.by import By
 import time
 
-
+def base(request):
+    return render(request, "base.html")
 def index(request):
     error_message = request.session.pop("error_message", None)
     return render(request, "index.html", {"error_message": error_message})
