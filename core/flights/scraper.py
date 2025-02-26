@@ -116,9 +116,10 @@ def get_flight_results(driver):
 
     return [result.text.strip() for result in results] if results else ["پروازی در این تاریخ وجود ندارد."]
 
-def save_to_html(data):
+def save_to_html(data, day, month):
     """Saves flight results to an HTML file and opens it in a browser."""
     os.makedirs("templates", exist_ok=True)
+    
     html_template = """
     <!DOCTYPE html>
 <html lang="fa">
@@ -233,7 +234,10 @@ def save_to_html(data):
 </head>
 <body>
     <div class="container">
-        <h2>نتایج پرواز</h2>
+        
+        <h2> نتایج پرواز داخلی ({day} {month}) سایت علی بابا</h2>
+        <h2> </h2>
+        
         {flights}
     </div>
 
@@ -244,7 +248,7 @@ def save_to_html(data):
         // نمایش دکمه بعد از 3 ثانیه
         setTimeout(function() {
             document.getElementById("refreshButton").style.display = "block";
-        }, 3000);
+        }, 1000);
     </script>
 </body>
 </html>
@@ -254,8 +258,10 @@ def save_to_html(data):
 
     flights_html = "".join(f'<div class="flight">{flight}</div>' for flight in data)
     final_html = html_template.replace("{flights}", flights_html)
+    final_html = final_html.replace("{day}", day)
+    final_html = final_html.replace("{month}", month)
 
-    with open("./core/templates/flights.html", "w", encoding="utf-8") as f:
+    with open("./core/templates/result/flights.html", "w", encoding="utf-8") as f:
         f.write(final_html)
 
 
