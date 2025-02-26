@@ -60,21 +60,28 @@ def select_date(driver,day,month):
             
             return 
 
-        day_xpath = f".//span[@class='calendar-cell']/span[contains(text(), '{int(day)}')]"
-        date_element = WebDriverWait(target_calendar, 5).until(
-            EC.element_to_be_clickable((By.XPATH, day_xpath))
-        )
+        day_xpath = f".//span[@class='calendar-cell']/span[normalize-space(text()) = '{int(day)}']"
+
+
+        try:
+            date_element = WebDriverWait(target_calendar, 5).until(
+                EC.presence_of_element_located((By.XPATH, day_xpath))
+            )
+            print(f"✅ عنصر روز {day} پیدا شد!")
+        except:
+            print(f"❌ عنصر روز {day} در تقویم پیدا نشد!")
+            return
 
         driver.execute_script("arguments[0].classList.add('is-selected');", date_element)
         date_element.click()
 
         print("✅ تاریخ با موفقیت انتخاب شد!")
-        if month == "فروردین":
-            try:
-                is_pass_element = date_element.find_element(By.XPATH, "./span[@class='is-pass']")
-                driver.execute_script("arguments[0].remove();", is_pass_element)
-            except:
-                print("✅ هیچ تگ is-pass برای حذف وجود نداشت.")
+        # if month == "فروردین":
+        #     try:
+        #         is_pass_element = date_element.find_element(By.XPATH, "./span[@class='is-pass']")
+        #         driver.execute_script("arguments[0].remove();", is_pass_element)
+        #     except:
+        #         print("✅ هیچ تگ is-pass برای حذف وجود نداشت.")
 
         # کلیک روی تاریخ موردنظر
         date_element.click()
