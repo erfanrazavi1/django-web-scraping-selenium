@@ -35,60 +35,68 @@ def select_location(driver, label_text, city_name):
     search_box.send_keys(city_name)
     time.sleep(1)
 
-    first_option =WebDriverWait(driver, 2).until(
+    first_option =WebDriverWait(driver, 10).until(
         EC.presence_of_all_elements_located((By.XPATH, "//span[contains(@class, 'font-medium')]"))
     )
     first_option[0].click()
 
-def select_date(driver,day,month):
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+def select_date(driver, day, month):
     """تابع کمکی برای انتخاب تاریخ در مرورگر با استفاده از Selenium."""
     try:
-       
+        # یافتن همه‌ی تقویم‌های موجود
         calendar_divs = driver.find_elements(By.XPATH, "//div[@class='calendar is-jalali']")
-
-        target_calendar = None
-
         
+        target_calendar = None
+        
+        # پیدا کردن تقویم مربوط به ماه موردنظر
         for calendar in calendar_divs:
             month_text = calendar.find_element(By.TAG_NAME, "h5").text.strip()
             if month_text == month:
                 target_calendar = calendar
                 break
-        
+
         if target_calendar is None:
             print("❌ ماه موردنظر پیدا نشد!")
-            
             return 
 
-        day_xpath = f".//span[@class='calendar-cell']/span[normalize-space(text()) = '{int(day)}']"
+        # XPathهای مختلف برای روزها
+        day_xpaths = [
+            f".//span[@class='calendar-cell']/span[normalize-space(text()) = '{int(day)}']",
+            f".//span[@class='calendar-cell is-holiday']/span[normalize-space(text()) = '{int(day)}']",
+            f".//span[@class='calendar-cell is-first is-holiday']/span[normalize-space(text()) = '{int(day)}']"
+        ]
+        
+        date_element = None
 
-
-        try:
-            date_element = WebDriverWait(target_calendar, 5).until(
-                EC.presence_of_element_located((By.XPATH, day_xpath))
-            )
-            print(f"✅ عنصر روز {day} پیدا شد!")
-        except:
+        # بررسی هر XPath برای یافتن عنصر موردنظر
+        for xpath in day_xpaths:
+            try:
+                date_element = WebDriverWait(target_calendar, 2).until(
+                    EC.presence_of_element_located((By.XPATH, xpath))
+                )
+                break  # اگر پیدا شد، از حلقه خارج شود
+            except:
+                continue  # اگر پیدا نشد، بقیه‌ی XPathها بررسی شوند
+        
+        if date_element is None:
             print(f"❌ عنصر روز {day} در تقویم پیدا نشد!")
             return
-
+        
+        print(f"✅ عنصر روز {day} پیدا شد!")
+        
+        # انتخاب تاریخ
         driver.execute_script("arguments[0].classList.add('is-selected');", date_element)
         date_element.click()
-
+        
         print("✅ تاریخ با موفقیت انتخاب شد!")
-        # if month == "فروردین":
-        #     try:
-        #         is_pass_element = date_element.find_element(By.XPATH, "./span[@class='is-pass']")
-        #         driver.execute_script("arguments[0].remove();", is_pass_element)
-        #     except:
-        #         print("✅ هیچ تگ is-pass برای حذف وجود نداشت.")
 
-        # کلیک روی تاریخ موردنظر
-        date_element.click()
-        
-        
     except Exception as e:
-        print(f"Error selecting date: {e}")
+        print(f"❌ خطا در انتخاب تاریخ: {e}")
+
 
 def click_button(driver, by, value):
     """Clicks a button identified by the given locator."""
