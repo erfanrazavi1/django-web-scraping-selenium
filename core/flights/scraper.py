@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+from django.shortcuts import render
 from flights.models import Flight
 import os
 import time
@@ -10,7 +11,7 @@ import time
 def setup_driver():
     """Initialize and configure the Chrome WebDriver."""
     options = webdriver.ChromeOptions()
-    # options.add_argument("--headless")  # اجرای در پس‌زمینه
+    options.add_argument("--headless")  # اجرای در پس‌زمینه
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
@@ -116,7 +117,7 @@ def get_flight_results(driver):
 
     return [result.text.strip() for result in results] if results else ["پروازی در این تاریخ وجود ندارد."]
 
-def save_to_html(data, day, month):
+def save_to_html(data, day, month, inp_start, inp_end):
     """Saves flight results to an HTML file and opens it in a browser."""
     os.makedirs("templates", exist_ok=True)
     
@@ -235,7 +236,7 @@ def save_to_html(data, day, month):
 <body>
     <div class="container">
         
-        <h2> نتایج پرواز داخلی ({day} {month}) سایت علی بابا</h2>
+        <h2> نتایج پرواز داخلی ({inp_start} به {inp_end} {day} {month}) سایت علی بابا</h2>
         <h2> </h2>
         
         {flights}
@@ -260,9 +261,12 @@ def save_to_html(data, day, month):
     final_html = html_template.replace("{flights}", flights_html)
     final_html = final_html.replace("{day}", day)
     final_html = final_html.replace("{month}", month)
+    final_html = final_html.replace("{inp_start}", inp_start)
+    final_html = final_html.replace("{inp_end}", inp_end)
 
     with open("./core/templates/result/flights.html", "w", encoding="utf-8") as f:
         f.write(final_html)
+    return render(data,'result/flights.html', {"context": context}))
 
 
 def save_to_database(data):
@@ -271,4 +275,3 @@ def save_to_database(data):
     for flight in data:
         flight_list2 = Flight.objects.create(details=flight)
         flight_list.append(flight_list2)
-    

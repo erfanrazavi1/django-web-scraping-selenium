@@ -33,7 +33,7 @@ def search_flights(request):
             flight_data = get_flight_results(driver)
         finally:
             driver.quit()
-            file_path = save_to_html(flight_data, day, month)
+            file_path = save_to_html(flight_data, day, month, inp_start, inp_end)
             # flight_data_list = {'detail': flight_data}
             
             save_to_database(flight_data)
