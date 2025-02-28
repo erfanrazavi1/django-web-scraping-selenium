@@ -292,16 +292,16 @@
     <form id="flight-form" method='post' action="{% url 'flight:search_flights' %}">
         {% csrf_token %}
         <label for="start">مبدا:</label>
-        <input type="text" id="start" name="start" required placeholder="مثلاً: تهران">
+        <input type="text" id="start" name="start" required placeholder="تهران">
         
         <label for="end">مقصد:</label>
-        <input type="text" id="end" name="end" required placeholder="مثلاً: مشهد">
+        <input type="text" id="end" name="end" required placeholder="مشهد">
         
         <label for="day">روز رفت:</label>
-        <input type="text" id="day" name="day" required placeholder="مثلاً: 1">
+        <input type="text" id="day" name="day" required placeholder="1">
         
         <label for="month">ماه رفت:</label>
-        <input type="text" id="month" name="month" required placeholder="مثلاً: اسفند">
+        <input type="text" id="month" name="month" required placeholder="اسفند">
         
         <button type="submit">جستجو</button>
     </form>

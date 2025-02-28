@@ -7,6 +7,7 @@
     <title>الی گشت</title>
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
     <style>
         /* استایل کلی صفحه */
@@ -112,9 +113,23 @@
                 grid-template-columns: 1fr;
             }
         }
+        .animated-text {
+            position: fixed;
+            top: 85%;
+            left: 0;
+            font-size: 2rem;
+            font-weight: bold;
+            white-space: nowrap;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.5);
+            padding: 10px 20px;
+        }
     </style>
 </head>
 <body>
+    
+    <div class="animated-text">حمیدرضا شریف ✈️</div>
+
     <!-- عنوان صفحه -->
     <h1 class="title">✈️ Mahangasht - Explore the Sky</h1>
 
@@ -137,6 +152,7 @@
             <p>امتحانش کن، ضرر نداره</p>
         </a>
     </div>
+
 
     <!-- کانواس Three.js برای پس‌زمینه -->
     <div id="bgCanvas"></div>
@@ -181,6 +197,16 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
+        });
+        
+    </script>
+    <script>
+        gsap.to(".animated-text", {
+            x: window.innerWidth - 300, // حرکت به سمت راست
+            duration: 5, // مدت‌زمان حرکت
+            ease: "power1.inOut", // حرکت نرم
+            repeat: -1, // تکرار بی‌نهایت
+            yoyo: true // برگشت به چپ بعد از رسیدن به راست
         });
     </script>
 </body>
