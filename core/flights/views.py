@@ -33,18 +33,15 @@ def search_flights(request):
             flight_data = get_flight_results(driver)
         finally:
             driver.quit()
-            file_path = save_to_html(flight_data, day, month, inp_start, inp_end)
-            # flight_data_list = {'detail': flight_data}
-            
+            context = {
+                "flights": flight_data,
+                "day": day,
+                "month": month,
+                "inp_start": inp_start,
+                "inp_end": inp_end,
+            }
             save_to_database(flight_data)
-            return render(request, 'result/flights.html', {
-                "message": "جستجو با موفقیت انجام شد",
-                "data": flight_data,
-                "html_file": file_path
-            })
-
-
-        # save_to_html(flight_data)
+            return render(request,'result/flights.html',context)
         
 
     return JsonResponse({"error": "درخواست نامعتبر است."}, status=400)

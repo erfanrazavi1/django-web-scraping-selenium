@@ -117,156 +117,17 @@ def get_flight_results(driver):
 
     return [result.text.strip() for result in results] if results else ["پروازی در این تاریخ وجود ندارد."]
 
-def save_to_html(data, day, month, inp_start, inp_end):
-    """Saves flight results to an HTML file and opens it in a browser."""
-    os.makedirs("templates", exist_ok=True)
-    
-    html_template = """
-    <!DOCTYPE html>
-<html lang="fa">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flight Results</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700&display=swap');
+# def save_to_html(flight_data, day, month, inp_start, inp_end):
+#     """Saves flight results to an HTML file and opens it in a browser."""
 
-        body {
-            font-family: 'Vazirmatn', Arial, sans-serif;
-            direction: rtl;
-            text-align: right;
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            padding: 20px;
-            color: #fff;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: auto;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            animation: fadeIn 1s ease-in-out;
-        }
-
-        h2 {
-            color: #fff;
-            text-align: center;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-
-        .flight {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            border-right: 6px solid #007bff;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        }
-
-        .flight:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .flight strong {
-            color: #007bff;
-        }
-
-        .flight::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.2);
-            transform: skewX(-20deg);
-            transition: left 0.5s ease-in-out;
-        }
-
-        .flight:hover::before {
-            left: 100%;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* استایل دکمه بروزرسانی */
-        .refresh-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #007bff;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            display: none; /* مخفی کردن دکمه */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease-in-out;
-        }
-
-        .refresh-btn:hover {
-            background: #0056b3;
-            transform: scale(1.1);
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        
-        <h2> نتایج پرواز داخلی ({inp_start} به {inp_end} {day} {month}) سایت علی بابا</h2>
-        <h2> </h2>
-        
-        {flights}
-    </div>
-
-    <!-- دکمه بروزرسانی -->
-    <a href="{% url 'flight:base' %}" class="refresh-btn" id="refreshButton">برو به صفحه اصلی</a>
-
-    <script>
-        // نمایش دکمه بعد از 3 ثانیه
-        setTimeout(function() {
-            document.getElementById("refreshButton").style.display = "block";
-        }, 1000);
-    </script>
-</body>
-</html>
-
-
-    """
-
-    flights_html = "".join(f'<div class="flight">{flight}</div>' for flight in data)
-    final_html = html_template.replace("{flights}", flights_html)
-    final_html = final_html.replace("{day}", day)
-    final_html = final_html.replace("{month}", month)
-    final_html = final_html.replace("{inp_start}", inp_start)
-    final_html = final_html.replace("{inp_end}", inp_end)
-
-    with open("./core/templates/result/flights.html", "w", encoding="utf-8") as f:
-        f.write(final_html)
-    return render(data,'result/flights.html', {"context": context}))
+#     return  {
+#         "flights": flight_data,
+#         "day": day,
+#         "month": month,
+#         "inp_start": inp_start,
+#         "inp_end": inp_end,
+#     }
+     
 
 
 def save_to_database(data):
