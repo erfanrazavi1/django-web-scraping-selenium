@@ -28,7 +28,7 @@ pip install -r requirements.txt
 To set up the database, run the migrations:
 
 
-python manage.py migrate
+python core/manage.py migrate
 4. Run the Django Server
 Now, you can start the Django server:
 
