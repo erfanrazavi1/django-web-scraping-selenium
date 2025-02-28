@@ -8,20 +8,36 @@ from flights.models import Flight
 import os
 import time
 
-def setup_driver():
-    """Initialize and configure the Chrome WebDriver."""
-    options = webdriver.ChromeOptions()
-    options.add_argument("--headless")  # اجرای در پس‌زمینه
-    options.add_argument("--disable-gpu")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-    # options.add_argument("--window-size=1920,1080")  # تنظیم رزولوشن
-    options.add_argument("--disable-blink-features=AutomationControlled")  # جلوگیری از شناسایی هدلس
-    options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")  # User-Agent واقعی
+
+class WebDriverManager:
+    """ The manager for webdriver """
     
-    
-    
-    return webdriver.Chrome(options=options)
+    def __init__(self, headless=True):
+        self.options = webdriver.ChromeOptions()
+        if headless:
+            self.options.add_argument("--headless")  
+        self.options.add_argument("--disable-gpu")
+        self.options.add_argument("--no-sandbox")
+        self.options.add_argument("--disable-dev-shm-usage")
+        self.options.add_argument("--disable-blink-features=AutomationControlled")  # جلوگیری از شناسایی هدلس
+        self.options.add_argument(
+            "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+            "(KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+        )  # real user agent
+        self.driver = None
+
+    def start_driver(self):
+        
+        if not self.driver:
+            self.driver = webdriver.Chrome(options=self.options)
+        return self.driver
+
+    def quit_driver(self):
+        
+        if self.driver:
+            self.driver.quit()
+            self.driver = None  
+
 
 
 def select_location(driver, label_text, city_name):

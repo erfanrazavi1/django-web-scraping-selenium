@@ -6,7 +6,7 @@ app_name = "flight"
 urlpatterns = [
     path('', base, name='base'),
     path('fly/', index, name='index'),
-    path("search/", search_flights, name="search_flights"),
+    path("search/", SearchFlightsView.as_view(), name="search_flights"),
     
 
 ]
