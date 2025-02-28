@@ -5,20 +5,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>جستجوی پرواز</title>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
     <style>
         /* استایل کلی صفحه */
         body {
-            font-family: 'Vazirmatn', sans-serif;
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            font-family: Vazirmatn, sans-serif;
             color: #fff;
             margin: 0;
             padding: 0;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            flex-direction: column;
             direction: rtl;
+            position: relative;
         }
 
         /* استایل عنوان */
@@ -49,7 +52,8 @@
         }
 
         #flight-form input[type="text"] {
-            width: 100%;
+            font-family: Vazirmatn, sans-serif;
+            width: 93%;
             padding: 0.75rem;
             margin-bottom: 1rem;
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -70,6 +74,7 @@
         }
 
         #flight-form button {
+            font-family: Vazirmatn, sans-serif;
             width: 100%;
             padding: 0.75rem;
             background-color: #007bff;
@@ -255,6 +260,23 @@
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
 }
+/* استایل پس‌زمینه */
+        #bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        /* استایل برای موبایل */
+        @media (max-width: 768px) {
+            .panel {
+                grid-template-columns: 1fr;
+            }
+        }
 
 
     </style>
@@ -295,7 +317,50 @@
         alert("{{ error_message }}");
     </script>
     {% endif %}
+    <div id="bgCanvas"></div>
 
+    <script>
+        // تنظیم صحنه
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById("bgCanvas").appendChild(renderer.domElement);
+
+        // ایجاد ذرات متحرک
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCount = 500;
+        const positions = new Float32Array(particlesCount * 3);
+
+        for (let i = 0; i < particlesCount * 3; i++) {
+            positions[i] = (Math.random() - 0.5) * 10;
+        }
+
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+        const particlesMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.05 });
+        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+
+        scene.add(particlesMesh);
+
+        camera.position.z = 5;
+
+        // انیمیشن
+        function animate() {
+            requestAnimationFrame(animate);
+            particlesMesh.rotation.y += 0.001;
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // تنظیم اندازه مجدد صفحه
+        window.addEventListener('resize', () => {
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+        });
+    </script>
     <script>
         document.getElementById("flight-form").addEventListener("submit", function () {
             document.getElementById("loading").classList.add("show");
